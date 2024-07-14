@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -24,8 +25,8 @@ func main() {
 	})
 
 	server := http.Server{
-		Addr:    ":8888",
-		Handler: r,
+		Addr:    ":80",
+		Handler: Limit(r),
 	}
 
 	log.Println("listen to 8888")
@@ -40,6 +41,13 @@ func SPA(next http.Handler) http.Handler {
 			r.URL.Path = "/"
 		}
 
+		next.ServeHTTP(w, r)
+	})
+}
+
+func Limit(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.RemoteAddr)
 		next.ServeHTTP(w, r)
 	})
 }

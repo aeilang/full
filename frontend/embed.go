@@ -5,11 +5,9 @@ import (
 	"io/fs"
 )
 
-//go:embed all:dist
-var assets embed.FS
+//go:embed dist/*
+var asserts embed.FS
 
 func Assets() (fs.FS, error) {
-	return fs.Sub(assets, "dist")
+	return fs.Sub(asserts, "dist")
 }
-
-
