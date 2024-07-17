@@ -29,8 +29,10 @@ func main() {
 		Handler: Limit(r),
 	}
 
-	log.Println("listen to 8888")
-	server.ListenAndServe()
+	log.Println("listen to 80")
+	if err := server.ListenAndServe(); err != nil {
+		fmt.Println(err)
+	}
 }
 
 func SPA(next http.Handler) http.Handler {
